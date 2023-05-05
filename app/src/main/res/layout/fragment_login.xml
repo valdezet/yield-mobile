@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/frameLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.login.LoginFragment">
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.2">
+
+        <EditText
+            android:id="@+id/login_edit_email"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_horizontal_default"
+            android:layout_marginTop="@dimen/margin_vertical_default"
+            android:layout_marginEnd="@dimen/margin_horizontal_default"
+            android:autofillHints="emailAddress"
+            android:ems="10"
+            android:hint="@string/label_email"
+            android:inputType="textEmailAddress"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/login_text_error" />
+
+        <Button
+            android:id="@+id/login_btn_submit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_vertical_default"
+            android:layout_marginBottom="@dimen/margin_vertical_default"
+            android:text="@string/label_login"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@+id/login_edit_password"
+            app:layout_constraintStart_toStartOf="@+id/login_edit_password"
+            app:layout_constraintTop_toBottomOf="@+id/login_edit_password"
+            app:layout_constraintVertical_bias="0.0" />
+
+        <EditText
+            android:id="@+id/login_edit_password"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_horizontal_default"
+            android:layout_marginTop="@dimen/margin_vertical_default"
+            android:layout_marginEnd="@dimen/margin_horizontal_default"
+            android:ems="10"
+            android:hint="@string/label_password"
+            android:importantForAutofill="no"
+            android:inputType="textPassword"
+            app:layout_constraintEnd_toEndOf="@+id/login_edit_email"
+            app:layout_constraintStart_toStartOf="@+id/login_edit_email"
+            app:layout_constraintTop_toBottomOf="@+id/login_edit_email" />
+
+        <TextView
+            android:id="@+id/login_text_error"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_horizontal_default"
+            android:layout_marginTop="@dimen/margin_vertical_default"
+            android:contentDescription="@string/placeholder"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+            android:textColor="@color/red_dark"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="@string/placeholder" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
