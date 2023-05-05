@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="EditTextDefault" parent="android:Widget.EditText">
+        <item name="android:minHeight">@dimen/touchable_height_minimum</item>
+        <item name="android:minWidth">@dimen/touchable_width_minimum</item>
+    </style>
+</resources>

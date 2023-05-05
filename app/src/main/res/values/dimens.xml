@@ -1,0 +1,9 @@
+<resources>
+    <!-- Default screen margins, per the Android Design guidelines. -->
+    <dimen name="margin_vertical_default">16dp</dimen>
+    <dimen name="margin_horizontal_default">16dp</dimen>
+
+    <dimen name="touchable_height_minimum">48dp</dimen>
+    <dimen name="touchable_width_minimum">48dp</dimen>
+
+</resources>
