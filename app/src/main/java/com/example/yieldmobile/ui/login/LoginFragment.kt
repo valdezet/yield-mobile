@@ -1,5 +1,6 @@
 package com.example.yieldmobile.ui.login
 
+import android.content.Intent
 import android.os.Bundle
 import android.provider.Settings
 import androidx.fragment.app.Fragment
@@ -12,6 +13,7 @@ import android.widget.EditText
 import android.widget.TextView
 import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
+import com.example.yieldmobile.MainActivity
 import com.example.yieldmobile.R
 import com.example.yieldmobile.data.model.LoginScreenState
 import kotlinx.coroutines.launch
@@ -71,15 +73,23 @@ class LoginFragment : Fragment() {
             val email = emailInput.text.toString()
             val password = passwordInput.text.toString()
             lifecycleScope.launch {
-                val result = vm.attemptLogin(
+                val result: Boolean = vm.attemptLogin(
+                    requireActivity().applicationContext,
                     email,
                     password,
                     getDeviceNameForLogin()
                 )
-                result.toString()
+                if (result) {
+                    navigateToMainActivity()
+                }
             }
 
         }
+    }
+
+    private fun navigateToMainActivity() {
+        startActivity(Intent(requireActivity(), MainActivity::class.java))
+        requireActivity().finish()
     }
 
     private fun getDeviceNameForLogin(): String {
@@ -88,5 +98,6 @@ class LoginFragment : Fragment() {
             Settings.Global.getString(contentResolver, "device_name")
         return "${android.os.Build.BRAND} $userDefinedDeviceName"
     }
+
 
 }

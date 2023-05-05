@@ -1,9 +1,11 @@
 package com.example.yieldmobile.ui.login
 
+import android.content.Context
 import androidx.lifecycle.*
 import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
 import com.example.yieldmobile.application.RetrofitProvider
+import com.example.yieldmobile.data.ApiAuthPreferencesDataStore
 import com.example.yieldmobile.data.AuthRepository
 import com.example.yieldmobile.data.AuthRetrofitApi
 import com.example.yieldmobile.data.dto.LoginForm
@@ -23,15 +25,21 @@ class LoginViewModel(
     val loginState: LiveData<LoginScreenState>
         get() = _loginState
 
-    suspend fun attemptLogin(email: String, password: String, deviceName: String): Boolean {
+    suspend fun attemptLogin(
+        appContext: Context,
+        email: String,
+        password: String,
+        deviceName: String
+    ): Boolean {
         var success = false
         try {
             clearError()
             setLoadingState(true)
             withContext(dispatcher) {
                 val token = authRepository.login(LoginForm(email, password, deviceName))
+                ApiAuthPreferencesDataStore.storeToken(appContext,token)
+                success = true
             }
-            success = true
         } catch (ex: ValidationException) {
             val errors = ex.mapFieldErrors(LoginValidationErrors::class.java)
             val message = ex.errorData.message
