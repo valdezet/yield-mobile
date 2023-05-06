@@ -3,9 +3,11 @@ package com.example.yieldmobile.data
 import com.example.yieldmobile.data.dto.LoginForm
 import com.example.yieldmobile.exceptions.retrofit2.ValidationException
 import retrofit2.HttpException
+import javax.inject.Inject
 
-class AuthRepository(
-    private val api: AuthRetrofitApi
+class AuthRepository @Inject constructor(
+    private val api: AuthRetrofitApi,
+    private val authPreferencesDataStore: ApiAuthPreferencesDataStore
 ) {
     /**
      * @return String the Bearer token in plaintext
@@ -27,5 +29,13 @@ class AuthRepository(
             throw HttpException(response)
         }
         return true
+    }
+
+    suspend fun storeApiTokenLocally(apiToken: String) {
+        authPreferencesDataStore.storeToken(apiToken)
+    }
+
+    suspend fun retrieveLocallyStoredApiToken(): String? {
+        return authPreferencesDataStore.retrieveToken()
     }
 }

@@ -16,9 +16,10 @@ import androidx.lifecycle.lifecycleScope
 import com.example.yieldmobile.MainActivity
 import com.example.yieldmobile.R
 import com.example.yieldmobile.data.model.LoginScreenState
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
-
+@AndroidEntryPoint
 class LoginFragment : Fragment() {
 
     private lateinit var emailInput: EditText
@@ -26,7 +27,7 @@ class LoginFragment : Fragment() {
     private lateinit var loginError: TextView
     private lateinit var loginButton: Button
 
-    private val vm: LoginViewModel by viewModels { LoginViewModel.Factory }
+    private val vm: LoginViewModel by viewModels()
 
     private val loadingStateObserver: Observer<LoginScreenState>
         get() {
@@ -74,7 +75,6 @@ class LoginFragment : Fragment() {
             val password = passwordInput.text.toString()
             lifecycleScope.launch {
                 val result: Boolean = vm.attemptLogin(
-                    requireActivity().applicationContext,
                     email,
                     password,
                     getDeviceNameForLogin()

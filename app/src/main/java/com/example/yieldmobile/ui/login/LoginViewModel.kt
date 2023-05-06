@@ -1,32 +1,33 @@
 package com.example.yieldmobile.ui.login
 
-import android.content.Context
-import androidx.lifecycle.*
-import androidx.lifecycle.viewmodel.initializer
-import androidx.lifecycle.viewmodel.viewModelFactory
-import com.example.yieldmobile.application.RetrofitProvider
-import com.example.yieldmobile.data.ApiAuthPreferencesDataStore
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
 import com.example.yieldmobile.data.AuthRepository
-import com.example.yieldmobile.data.AuthRetrofitApi
 import com.example.yieldmobile.data.dto.LoginForm
 import com.example.yieldmobile.data.dto.LoginValidationErrors
 import com.example.yieldmobile.data.model.LoginScreenState
 import com.example.yieldmobile.exceptions.retrofit2.ValidationException
-import kotlinx.coroutines.CoroutineDispatcher
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import javax.inject.Inject
 
-class LoginViewModel(
+@HiltViewModel
+class LoginViewModel @Inject constructor(
     private val authRepository: AuthRepository,
-    private val dispatcher: CoroutineDispatcher = Dispatchers.IO
-) : ViewModel() {
 
-    private val _loginState: MutableLiveData<LoginScreenState> = MutableLiveData<LoginScreenState>()
+) : ViewModel() {
+    private val dispatcher = Dispatchers.IO
+
+    private val _loginState: MutableLiveData<LoginScreenState> = MutableLiveData<LoginScreenState>(
+        LoginScreenState()
+    )
+
     val loginState: LiveData<LoginScreenState>
         get() = _loginState
 
     suspend fun attemptLogin(
-        appContext: Context,
         email: String,
         password: String,
         deviceName: String
@@ -37,7 +38,7 @@ class LoginViewModel(
             setLoadingState(true)
             withContext(dispatcher) {
                 val token = authRepository.login(LoginForm(email, password, deviceName))
-                ApiAuthPreferencesDataStore.storeToken(appContext,token)
+                authRepository.storeApiTokenLocally(token)
                 success = true
             }
         } catch (ex: ValidationException) {
@@ -61,20 +62,5 @@ class LoginViewModel(
 
     private fun clearError() {
         _loginState.value = loginState.value?.apply { errorMessage = null }
-    }
-
-    // Define ViewModel factory in a companion object
-    companion object {
-        val Factory: ViewModelProvider.Factory = viewModelFactory {
-            initializer {
-                val repository =
-                    AuthRepository(RetrofitProvider.create().create(AuthRetrofitApi::class.java))
-                val instance = LoginViewModel(
-                    repository
-                )
-                instance._loginState.value = LoginScreenState(null, false)
-                return@initializer instance
-            }
-        }
     }
 }

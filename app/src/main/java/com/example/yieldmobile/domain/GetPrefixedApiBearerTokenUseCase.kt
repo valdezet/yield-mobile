@@ -1,11 +1,13 @@
 package com.example.yieldmobile.domain
 
-import android.content.Context
-import com.example.yieldmobile.data.ApiAuthPreferencesDataStore
+import com.example.yieldmobile.data.AuthRepository
+import javax.inject.Inject
 
-class GetPrefixedApiBearerTokenUseCase {
-    suspend operator fun invoke(appContext: Context): String? {
-        val token = ApiAuthPreferencesDataStore.retrieveToken(appContext) ?: return null
+class GetPrefixedApiBearerTokenUseCase @Inject constructor(
+    private val authRepository: AuthRepository
+) {
+    suspend operator fun invoke(): String? {
+        val token = authRepository.retrieveLocallyStoredApiToken() ?: return null
         return "Bearer $token"
     }
 }

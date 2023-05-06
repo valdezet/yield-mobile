@@ -4,14 +4,22 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.lifecycle.lifecycleScope
-import com.example.yieldmobile.application.RetrofitProvider
 import com.example.yieldmobile.data.AuthRepository
-import com.example.yieldmobile.data.AuthRetrofitApi
 import com.example.yieldmobile.domain.GetPrefixedApiBearerTokenUseCase
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
+@AndroidEntryPoint
 class StartupActivity : AppCompatActivity() {
+
+    @Inject
+    lateinit var authRepository: AuthRepository
+
+    @Inject
+    lateinit var getPrefixedApiBearerTokenUseCase : GetPrefixedApiBearerTokenUseCase
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         navigateToAppropriateActivity()
@@ -31,9 +39,8 @@ class StartupActivity : AppCompatActivity() {
     }
 
     private suspend fun checkForValidApiToken(): Boolean {
-        val bearerToken = GetPrefixedApiBearerTokenUseCase()(applicationContext) ?: return false
-        val repository = AuthRepository(RetrofitProvider.create().create(AuthRetrofitApi::class.java))
-        return repository.checkToken(bearerToken)
+        val bearerToken = getPrefixedApiBearerTokenUseCase() ?: return false
+        return authRepository.checkToken(bearerToken)
 
     }
 }
