@@ -15,7 +15,18 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.2">
+        app:layout_constraintVertical_bias="0.35">
+
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_horizontal_default"
+            android:layout_marginTop="@dimen/margin_vertical_default"
+            android:text="@string/label_login"
+            android:textAppearance="@style/TextAppearance.AppCompat.Display1"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <EditText
             android:id="@+id/login_edit_email"
@@ -43,7 +54,8 @@
             app:layout_constraintEnd_toEndOf="@+id/login_edit_password"
             app:layout_constraintStart_toStartOf="@+id/login_edit_password"
             app:layout_constraintTop_toBottomOf="@+id/login_edit_password"
-            app:layout_constraintVertical_bias="0.0" />
+            app:layout_constraintVertical_bias="0.0"
+            tools:ignore="DuplicateSpeakableTextCheck" />
 
         <EditText
             android:id="@+id/login_edit_password"
@@ -70,7 +82,7 @@
             android:textAppearance="@style/TextAppearance.AppCompat.Body2"
             android:textColor="@color/red_dark"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView"
             tools:text="@string/placeholder" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
