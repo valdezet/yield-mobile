@@ -14,4 +14,9 @@ class RetrofitApiProviderModule {
     fun provideAuthApi(retrofit: Retrofit): AuthRetrofitApi {
         return retrofit.create(AuthRetrofitApi::class.java)
     }
+
+    @Provides
+    fun provideTaskApi(retrofit: Retrofit): TaskRetrofitApi {
+        return retrofit.create(TaskRetrofitApi::class.java)
+    }
 }
